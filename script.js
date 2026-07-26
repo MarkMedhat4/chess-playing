@@ -7,7 +7,7 @@
 
 /* ============ CONFIGURATION ============ */
 // Replace this with your deployed Google Apps Script Web App URL (see README.md)
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgKSHnvdDJ0jTmsxuo8k3IKL0xTqhUR5zFrM1XfVQWh4t8MgVB4mhGfMLD9pNYGg/exec';
 
 // Correct answers for each question (values match the radio button "value" attributes)
 const CORRECT_ANSWERS = {
