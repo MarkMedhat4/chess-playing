@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="description" content="امتحان أساسيات الشطرنج للأطفال - اختبر معلوماتك واحصل على نتيجتك فوراً">
+<title>♟️ امتحان أساسيات الشطرنج</title>
+
+<!-- Google Fonts: Cairo -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Floating chess pieces (decorative background) -->
+<div class="floating-pieces" aria-hidden="true">
+  <span class="piece p1">♟</span>
+  <span class="piece p2">♞</span>
+  <span class="piece p3">♝</span>
+  <span class="piece p4">♜</span>
+  <span class="piece p5">♛</span>
+  <span class="piece p6">♚</span>
+  <span class="piece p7">♟</span>
+  <span class="piece p8">♞</span>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<!-- Confetti canvas -->
+<canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+<main class="app">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge"><i class="fa-solid fa-chess-knight"></i> نادي الشطرنج</div>
+      <h1 class="hero-title">♟️ امتحان أساسيات الشطرنج</h1>
+      <p class="hero-subtitle">اختبر معلوماتك وأظهر مهاراتك...<br>واحصل على نتيجتك فوراً!</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><i class="fa-solid fa-circle-question"></i><span>7 أسئلة</span></div>
+        <div class="hero-stat"><i class="fa-solid fa-clock"></i><span>5 دقائق</span></div>
+        <div class="hero-stat"><i class="fa-solid fa-trophy"></i><span>نتيجة فورية</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ PROGRESS BAR ============ -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progressCounter">0 / 8</span>
+      <span id="progressPercent">0%</span>
+    </div>
+  </div>
+
+  <!-- ============ FORM ============ -->
+  <form id="examForm" class="exam-form" novalidate>
+
+    <!-- Student Info Card -->
+    <section class="card student-card" data-field-group>
+      <h2 class="card-title"><i class="fa-solid fa-user-graduate"></i> بيانات الطالب</h2>
+
+      <div class="field">
+        <label for="studentName">👦 الاسم الرباعي</label>
+        <input type="text" id="studentName" name="studentName" placeholder="اكتب اسمك الرباعي كاملاً" autocomplete="name" required>
+        <span class="field-error" id="err-studentName"></span>
+      </div>
+
+      <div class="field">
+        <label for="birthDate">📅 تاريخ الميلاد</label>
+        <input type="date" id="birthDate" name="birthDate" required>
+        <span class="field-error" id="err-birthDate"></span>
+      </div>
+
+      <div class="field">
+        <label for="phone">📱 رقم الهاتف</label>
+        <input type="tel" id="phone" name="phone" placeholder="01xxxxxxxxx" inputmode="numeric" autocomplete="tel" required>
+        <span class="field-error" id="err-phone"></span>
+      </div>
+    </section>
+
+    <!-- Question 1 -->
+    <section class="card question-card" data-field-group data-question="q1">
+      <h2 class="card-title"><span class="q-num">1</span> 🎯 ما هو هدف لعبة الشطرنج؟</h2>
+      <div class="options" role="radiogroup" aria-label="ما هو هدف لعبة الشطرنج؟">
+        <label class="option"><input type="radio" name="q1" value="a"><span class="option-text">كش للملك</span></label>
+        <label class="option"><input type="radio" name="q1" value="b"><span class="option-text">كش مات للخصم</span></label>
+        <label class="option"><input type="radio" name="q1" value="c"><span class="option-text">أخذ الوزير</span></label>
+        <label class="option"><input type="radio" name="q1" value="d"><span class="option-text">إنهاء الوقت</span></label>
+      </div>
+      <span class="field-error" id="err-q1"></span>
+    </section>
+
+    <!-- Question 2 -->
+    <section class="card question-card" data-field-group data-question="q2">
+      <h2 class="card-title"><span class="q-num">2</span> ⬜ كم مربع يوجد في رقعة الشطرنج؟</h2>
+      <div class="options" role="radiogroup" aria-label="كم مربع يوجد في رقعة الشطرنج؟">
+        <label class="option"><input type="radio" name="q2" value="a"><span class="option-text">32</span></label>
+        <label class="option"><input type="radio" name="q2" value="b"><span class="option-text">64</span></label>
+        <label class="option"><input type="radio" name="q2" value="c"><span class="option-text">72</span></label>
+        <label class="option"><input type="radio" name="q2" value="d"><span class="option-text">100</span></label>
+      </div>
+      <span class="field-error" id="err-q2"></span>
+    </section>
+
+    <!-- Question 3 -->
+    <section class="card question-card" data-field-group data-question="q3">
+      <h2 class="card-title"><span class="q-num">3</span> ♟️ عند ضبط رقعة الشطرنج يكون المربع...</h2>
+      <div class="options" role="radiogroup" aria-label="عند ضبط رقعة الشطرنج يكون المربع">
+        <label class="option"><input type="radio" name="q3" value="a"><span class="option-text">الأسود على اليمين</span></label>
+        <label class="option"><input type="radio" name="q3" value="b"><span class="option-text">الأبيض على اليمين من تحت</span></label>
+        <label class="option"><input type="radio" name="q3" value="c"><span class="option-text">الأسود على الشمال</span></label>
+        <label class="option"><input type="radio" name="q3" value="d"><span class="option-text">الأبيض على الشمال</span></label>
+      </div>
+      <span class="field-error" id="err-q3"></span>
+    </section>
+
+    <!-- Question 4 -->
+    <section class="card question-card" data-field-group data-question="q4">
+      <h2 class="card-title"><span class="q-num">4</span> 🐴 في نهاية الفيديو الأول، ما القطعة الموجودة على المربع b1؟</h2>
+      <div class="options" role="radiogroup" aria-label="ما القطعة الموجودة على المربع b1">
+        <label class="option"><input type="radio" name="q4" value="a"><span class="option-text">وزير أبيض</span></label>
+        <label class="option"><input type="radio" name="q4" value="b"><span class="option-text">حصان أبيض</span></label>
+        <label class="option"><input type="radio" name="q4" value="c"><span class="option-text">فيل أبيض</span></label>
+        <label class="option"><input type="radio" name="q4" value="d"><span class="option-text">قلعة بيضاء</span></label>
+      </div>
+      <span class="field-error" id="err-q4"></span>
+    </section>
+
+    <!-- Question 5 -->
+    <section class="card question-card" data-field-group data-question="q5">
+      <h2 class="card-title"><span class="q-num">5</span> 👑 الملك الأبيض في بداية اللعب يقف على مربع...</h2>
+      <div class="options" role="radiogroup" aria-label="الملك الأبيض في بداية اللعب يقف على مربع">
+        <label class="option"><input type="radio" name="q5" value="a"><span class="option-text">أبيض</span></label>
+        <label class="option"><input type="radio" name="q5" value="b"><span class="option-text">أسود</span></label>
+      </div>
+      <span class="field-error" id="err-q5"></span>
+    </section>
+
+    <!-- Question 6 -->
+    <section class="card question-card" data-field-group data-question="q6">
+      <h2 class="card-title"><span class="q-num">6</span> ⚔️ كم عدد قطع وبيادق الجيش الأسود؟</h2>
+      <div class="options" role="radiogroup" aria-label="كم عدد قطع وبيادق الجيش الأسود">
+        <label class="option"><input type="radio" name="q6" value="a"><span class="option-text">8</span></label>
+        <label class="option"><input type="radio" name="q6" value="b"><span class="option-text">12</span></label>
+        <label class="option"><input type="radio" name="q6" value="c"><span class="option-text">16</span></label>
+        <label class="option"><input type="radio" name="q6" value="d"><span class="option-text">20</span></label>
+      </div>
+      <span class="field-error" id="err-q6"></span>
+    </section>
+
+    <!-- Question 7 -->
+    <section class="card question-card" data-field-group data-question="q7">
+      <h2 class="card-title"><span class="q-num">7</span> ♝ ما القطع الموجودة بجانب الفيل الأبيض الذي يتحرك على المربعات البيضاء؟</h2>
+      <div class="options" role="radiogroup" aria-label="ما القطع الموجودة بجانب الفيل الأبيض">
+        <label class="option"><input type="radio" name="q7" value="a"><span class="option-text">الوزير والقلعة</span></label>
+        <label class="option"><input type="radio" name="q7" value="b"><span class="option-text">الحصان والوزير</span></label>
+        <label class="option"><input type="radio" name="q7" value="c"><span class="option-text">الملك والحصان</span></label>
+        <label class="option"><input type="radio" name="q7" value="d"><span class="option-text">الملك والقلعة</span></label>
+      </div>
+      <span class="field-error" id="err-q7"></span>
+    </section>
+
+    <!-- Submit -->
+    <div class="submit-wrap">
+      <button type="submit" id="submitBtn" class="btn-submit">
+        <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> إرسال الإجابات</span>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+  </form>
+
+  <!-- ============ RESULT SCREEN ============ -->
+  <section id="resultScreen" class="result-screen" hidden aria-live="polite">
+    <div class="result-card">
+      <div class="result-emoji">🎉</div>
+      <h2 class="result-title">مبروك!</h2>
+      <p class="result-name" id="resultName"></p>
+
+      <div class="result-score-circle" id="resultScoreCircle">
+        <span id="resultScoreText">0 / 7</span>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-stat correct">
+          <i class="fa-solid fa-circle-check"></i>
+          <span class="result-stat-value" id="resultCorrect">0</span>
+          <span class="result-stat-label">إجابات صحيحة</span>
+        </div>
+        <div class="result-stat wrong">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <span class="result-stat-value" id="resultWrong">0</span>
+          <span class="result-stat-label">إجابات خاطئة</span>
+        </div>
+        <div class="result-stat percent">
+          <i class="fa-solid fa-percent"></i>
+          <span class="result-stat-value" id="resultPercent">0%</span>
+          <span class="result-stat-label">النسبة المئوية</span>
+        </div>
+      </div>
+
+      <div class="result-grade" id="resultGrade"></div>
+
+      <button type="button" id="backHomeBtn" class="btn-secondary">
+        <i class="fa-solid fa-house"></i> العودة للرئيسية
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
