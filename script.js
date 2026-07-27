@@ -233,19 +233,50 @@ function formatDateDDMMYYYY(isoDate) {
    SUBMISSION
    ========================================================================== */
 async function submitToSheet(payload) {
-  const response = await fetch(WEB_APP_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight with Apps Script
-    body: JSON.stringify(payload),
-  });
+  console.log('[Chess Exam] Sending payload to:', WEB_APP_URL);
+  console.log('[Chess Exam] Payload:', payload);
 
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`);
+  if (!WEB_APP_URL || WEB_APP_URL.includes('AKfycbxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')) {
+    throw new Error('WEB_APP_URL لسه بيحتوي على القيمة الافتراضية — استبدلها برابط الـ deployment الحقيقي');
   }
 
-  const result = await response.json();
+  let response;
+  try {
+    response = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight with Apps Script
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+    });
+  } catch (networkErr) {
+    // This branch fires for real network/CORS failures (request never completed).
+    console.error('[Chess Exam] Network/CORS failure — the request may not have reached the server at all:', networkErr);
+    throw new Error('فشل الاتصال بالسيرفر (Network/CORS) — تأكد إن الرابط شغال ومتاح لـ "Anyone"');
+  }
+
+  console.log('[Chess Exam] Response status:', response.status, response.statusText);
+
+  // Read as text first so we can see the raw body even if it's not valid JSON
+  // (e.g. an HTML "Authorization required" page instead of our JSON).
+  const rawText = await response.text();
+  console.log('[Chess Exam] Raw response body:', rawText);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${rawText.slice(0, 200)}`);
+  }
+
+  let result;
+  try {
+    result = JSON.parse(rawText);
+  } catch (parseErr) {
+    console.error('[Chess Exam] Response was not valid JSON — likely a Google login/authorization page instead of the API response.');
+    throw new Error('الرد من السيرفر مش JSON — على الأغلب الـ deployment محتاج صلاحيات "Anyone" أو الرابط غلط');
+  }
+
+  console.log('[Chess Exam] Parsed result:', result);
+
   if (!result || result.status !== 'success') {
-    throw new Error(result && result.message ? result.message : 'Unknown error');
+    throw new Error(result && result.message ? result.message : 'Unknown error from server');
   }
   return result;
 }
@@ -301,7 +332,10 @@ async function handleSubmit(event) {
     showResult({ name, correctCount, wrongCount, percentage, grade });
   } catch (err) {
     console.error('Submission error:', err);
-    showToast('حدث خطأ أثناء الإرسال، من فضلك حاول مرة أخرى', 'error');
+    // Showing err.message (not just a generic message) so the real cause is
+    // visible on-screen while debugging. You can revert to a generic message
+    // once submissions are working reliably.
+    showToast(`حدث خطأ أثناء الإرسال: ${err.message}`, 'error', 6000);
   } finally {
     setLoading(false);
   }
