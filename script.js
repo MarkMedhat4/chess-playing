@@ -18,6 +18,14 @@ const CORRECT_ANSWERS = {
   q5: 'b', // أسود
   q6: 'c', // 16
   q7: 'c', // الملك والحصان
+  q8: 'b', // علامة (+)
+  q9: 'b', // غلط
+  q10: 'c', // الطابية والفيل
+  q11: 'c', // 8
+  q12: 'c', // 8
+  q13: 'a', // صح
+  q14: 'c', // لا أستطيع تحريك البيدق
+  q15: 'b', // غلط
 };
 
 const TOTAL_QUESTIONS = Object.keys(CORRECT_ANSWERS).length;
@@ -316,6 +324,14 @@ async function handleSubmit(event) {
     q5: answers.q5,
     q6: answers.q6,
     q7: answers.q7,
+    q8: answers.q8,
+    q9: answers.q9,
+    q10: answers.q10,
+    q11: answers.q11,
+    q12: answers.q12,
+    q13: answers.q13,
+    q14: answers.q14,
+    q15: answers.q15,
     correctAnswers: correctCount,
     wrongAnswers: wrongCount,
     score: `${correctCount} / ${TOTAL_QUESTIONS}`,
